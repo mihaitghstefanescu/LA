@@ -6,7 +6,7 @@ class LoginScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("SIGN IN"),
+        title: Text("LOG IN"),
       ),
       body: Center(
         child: RaisedButton(

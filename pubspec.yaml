@@ -20,7 +20,7 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   assets:
-    - images/KABN-Full-LOGO-med-slogan.png
+    - images/
   fonts:
     - family: Montserrat
       fonts:
