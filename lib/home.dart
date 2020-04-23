@@ -31,7 +31,7 @@ class Buttons extends StatelessWidget {
             height: 50,
             child: RaisedButton(
               onPressed: () {
-                Navigator.pushNamed(context, '/login');
+                Navigator.pushNamed(context, '/LOG_IN');
               },
               child: const Text('LOG IN', style: TextStyle(fontSize: 16)),
               color: Colors.white70.withOpacity(1),
@@ -50,7 +50,7 @@ class Buttons extends StatelessWidget {
             height: 50,
             child: RaisedButton(
               onPressed: () {
-                Navigator.pushNamed(context, '/login');
+                Navigator.pushNamed(context, '/CREATE_AVATAR');
               },
               child:
                   const Text('CREATE AVATAR', style: TextStyle(fontSize: 16)),

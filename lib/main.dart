@@ -13,8 +13,9 @@ class LiquidAvatar extends StatelessWidget {
       initialRoute: '/',
       routes: {
         '/': (context) => HomeScreen(),
-        '/login': (context) => LoginScreen(),
-        '/signup': (context) => SignUpScreen(),
+        '/LOG_IN': (context) => LoginScreen(),
+        '/CREATE_AVATAR': (context) => SignUpScreen(),
+        '/CREATE_CHARACTER': (context) => CharacterCreator(),
       },
     );
   }
