@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'home.dart';
 import 'login.dart';
+import 'menu.dart';
 import 'signup.dart';
 
 void main() => runApp(LiquidAvatar());
@@ -15,7 +16,7 @@ class LiquidAvatar extends StatelessWidget {
         '/': (context) => HomeScreen(),
         '/LOG_IN': (context) => LoginScreen(),
         '/CREATE_AVATAR': (context) => SignUpScreen(),
-        '/CREATE_CHARACTER': (context) => CharacterCreator(),
+        '/LOG_IN/MAIN_MENU': (context) => MainMenu(),
       },
     );
   }

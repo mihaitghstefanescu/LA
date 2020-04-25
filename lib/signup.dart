@@ -1,6 +1,41 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+showUploadOptions(BuildContext context) {
+  // set up the buttons
+  Widget selfieButton = FlatButton(
+    child: Text("Take a selfie"),
+    onPressed: () {},
+  );
+  Widget uploadFromDeviceButton = FlatButton(
+    child: Text("Upload image from device"),
+    onPressed: () {},
+  );
+
+  // set up the AlertDialog
+  AlertDialog alert = AlertDialog(
+    title: Center(
+      child: Text("Choose upload method",
+          style: TextStyle(fontFamily: 'Montserrat', fontSize: 16)),
+    ),
+    actions: [
+      selfieButton,
+      uploadFromDeviceButton,
+    ],
+    shape: RoundedRectangleBorder(
+      borderRadius: new BorderRadius.circular(20.0),
+    ),
+  );
+
+  // show the dialog
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return alert;
+    },
+  );
+}
+
 class SignUpScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -18,7 +53,6 @@ class SignUpScreen extends StatelessWidget {
                   fontFamily: 'Montserrat',
                   fontSize: 40,
                   color: Colors.indigo,
-                  fontWeight: FontWeight.bold,
                 ),
               ),
             ),
@@ -86,10 +120,10 @@ class SignUpScreen extends StatelessWidget {
                 height: 60,
                 child: new RaisedButton(
                   onPressed: () {
-                    Navigator.pushNamed(context, '/CREATE_CHARACTER');
+                    Navigator.pushNamed(context, '/LOG_IN');
                   },
                   child: const Text('UPLOAD IMAGE',
-                      style: TextStyle(fontSize: 16)),
+                      style: TextStyle(fontFamily: 'Montserrat', fontSize: 16)),
                   color: Colors.indigo,
                   textColor: Colors.white,
                   elevation: 5,
@@ -106,21 +140,16 @@ class SignUpScreen extends StatelessWidget {
   }
 }
 
-class CharacterCreator extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Upload image here"),
-      ),
-      body: Center(
-        child: RaisedButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          child: Text('Go back!'),
-        ),
-      ),
-    );
-  }
-}
+/*child: new RaisedButton(
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/CREATE_CHARACTER');
+                  },
+                  child: const Text('UPLOAD IMAGE',
+                      style: TextStyle(fontSize: 16)),
+                  color: Colors.indigo,
+                  textColor: Colors.white,
+                  elevation: 5,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: new BorderRadius.circular(10.0),
+                  ),
+                ),*/
