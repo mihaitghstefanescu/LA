@@ -25,40 +25,43 @@ class Buttons extends StatelessWidget {
     return Align(
       alignment: Alignment.bottomCenter,
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
-          SizedBox(
-            width: 180,
-            height: 50,
-            child: RaisedButton(
-              onPressed: () {
-                Navigator.pushNamed(context, '/LOG_IN');
-              },
-              child: const Text('LOG IN', style: TextStyle(fontSize: 16)),
-              color: Colors.white70.withOpacity(1),
-              textColor: Colors.indigo,
-              elevation: 5,
-              shape: RoundedRectangleBorder(
-                borderRadius: new BorderRadius.circular(10.0),
+          Expanded(
+            child: Container(
+              height: 50,
+              child: RaisedButton(
+                onPressed: () {
+                  Navigator.pushNamed(context, '/LOG_IN');
+                },
+                child: const Text('LOG IN', style: TextStyle(fontSize: 16)),
+                color: Colors.white70.withOpacity(1),
+                textColor: Colors.indigo,
+                elevation: 5,
+                shape: RoundedRectangleBorder(
+                  borderRadius: new BorderRadius.circular(10.0),
+                ),
               ),
             ),
           ),
           SizedBox(
-            width: 20,
+            width: 10,
           ),
-          SizedBox(
-            width: 180,
-            height: 50,
-            child: RaisedButton(
-              onPressed: () {
-                Navigator.pushNamed(context, '/CREATE_AVATAR');
-              },
-              child:
-                  const Text('CREATE AVATAR', style: TextStyle(fontSize: 16)),
-              color: Colors.indigo,
-              textColor: Colors.white,
-              elevation: 5,
-              shape: RoundedRectangleBorder(
-                borderRadius: new BorderRadius.circular(10.0),
+          Expanded(
+            child: Container(
+              height: 50,
+              child: RaisedButton(
+                onPressed: () {
+                  Navigator.pushNamed(context, '/CREATE_AVATAR');
+                },
+                child:
+                    const Text('CREATE AVATAR', style: TextStyle(fontSize: 16)),
+                color: Colors.indigo,
+                textColor: Colors.white,
+                elevation: 5,
+                shape: RoundedRectangleBorder(
+                  borderRadius: new BorderRadius.circular(10.0),
+                ),
               ),
             ),
           ),
