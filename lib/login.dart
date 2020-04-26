@@ -76,7 +76,7 @@ class LoginScreen extends StatelessWidget {
                   height: 60,
                   child: new RaisedButton(
                     onPressed: () {
-                      Navigator.pushNamed(context, '/LOG_IN/MAIN_MENU');
+                      Navigator.pushNamed(context, '/CAMERA');
                     },
                     child: const Text('LOG IN WITH KABN',
                         style:

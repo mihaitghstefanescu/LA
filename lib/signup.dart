@@ -1,42 +1,17 @@
+import 'package:camera/camera.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-showUploadOptions(BuildContext context) {
-  // set up the buttons
-  Widget selfieButton = FlatButton(
-    child: Text("Take a selfie"),
-    onPressed: () {},
-  );
-  Widget uploadFromDeviceButton = FlatButton(
-    child: Text("Upload image from device"),
-    onPressed: () {},
-  );
-
-  // set up the AlertDialog
-  AlertDialog alert = AlertDialog(
-    title: Center(
-      child: Text("Choose upload method",
-          style: TextStyle(fontFamily: 'Montserrat', fontSize: 16)),
-    ),
-    actions: [
-      selfieButton,
-      uploadFromDeviceButton,
-    ],
-    shape: RoundedRectangleBorder(
-      borderRadius: new BorderRadius.circular(20.0),
-    ),
-  );
-
-  // show the dialog
-  showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return alert;
-    },
-  );
-}
+import 'camera_module.dart';
 
 class SignUpScreen extends StatelessWidget {
+  final CameraDescription camera;
+
+  const SignUpScreen({
+    Key key,
+    @required this.camera,
+  }) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
@@ -120,7 +95,8 @@ class SignUpScreen extends StatelessWidget {
                 height: 60,
                 child: new RaisedButton(
                   onPressed: () {
-                    Navigator.pushNamed(context, '/LOG_IN');
+                    showUploadOptions(context);
+                    //Navigator.pushNamed(context, '/LOG_IN');
                   },
                   child: const Text('UPLOAD IMAGE',
                       style: TextStyle(fontFamily: 'Montserrat', fontSize: 16)),
@@ -138,18 +114,50 @@ class SignUpScreen extends StatelessWidget {
       ),
     );
   }
-}
 
-/*child: new RaisedButton(
-                  onPressed: () {
-                    Navigator.pushNamed(context, '/CREATE_CHARACTER');
-                  },
-                  child: const Text('UPLOAD IMAGE',
-                      style: TextStyle(fontSize: 16)),
-                  color: Colors.indigo,
-                  textColor: Colors.white,
-                  elevation: 5,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: new BorderRadius.circular(10.0),
-                  ),
-                ),*/
+  showUploadOptions(BuildContext context) {
+    // set up the buttons
+    Widget selfieButton = FlatButton(
+      child: Text("Take a selfie"),
+      textColor: Colors.indigo,
+      onPressed: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => TakePictureScreen(
+              camera: this.camera,
+            ),
+          ),
+        );
+      },
+    );
+    Widget uploadFromDeviceButton = FlatButton(
+      child: Text("Upload from device"),
+      textColor: Colors.indigo,
+      onPressed: () {},
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: Center(
+        child: Text("Choose upload method",
+            style: TextStyle(fontFamily: 'Montserrat', fontSize: 16)),
+      ),
+      actions: [
+        selfieButton,
+        uploadFromDeviceButton,
+      ],
+      shape: RoundedRectangleBorder(
+        borderRadius: new BorderRadius.circular(20.0),
+      ),
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+}
