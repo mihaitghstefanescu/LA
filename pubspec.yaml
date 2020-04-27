@@ -25,6 +25,8 @@ flutter:
   uses-material-design: true
   assets:
     - images/
+    - images/avatar/
+    - images/icons/
   fonts:
     - family: Montserrat
       fonts:
