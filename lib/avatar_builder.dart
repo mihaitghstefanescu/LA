@@ -2,7 +2,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class AvatarBuilderScreen extends StatelessWidget {
-  const AvatarBuilderScreen({Key key}) : super(key: key);
+  final String type;
+
+  const AvatarBuilderScreen({
+    Key key,
+    @required this.type,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +30,15 @@ class AvatarBuilderScreen extends StatelessWidget {
               ),
               Container(
                   margin: new EdgeInsets.fromLTRB(0, 20, 0, 0),
-                  child: SizedBox(height: 250)),
+                  child: SizedBox(
+                      height: 250,
+                      child: Center(
+                          child: Text(type + ' avatar placeholder',
+                              style: TextStyle(
+                                fontFamily: 'Montserrat',
+                                fontSize: 20,
+                                color: Colors.grey[600],
+                              ))))),
               Expanded(
                   child: Container(
                       alignment: Alignment.bottomCenter,

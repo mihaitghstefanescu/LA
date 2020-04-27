@@ -1,6 +1,7 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:liquid_avatar/avatar_builder.dart';
 
 import 'camera_module.dart';
 
@@ -53,21 +54,51 @@ class SignUpScreen extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
-                  new Image.asset(
-                    'images/girl.png',
-                    height: 100.0,
-                    fit: BoxFit.cover,
-                  ),
-                  new Image.asset(
-                    'images/teamwork.png',
-                    height: 100.0,
-                    fit: BoxFit.cover,
-                  ),
-                  new Image.asset(
-                    'images/man.png',
-                    height: 100.0,
-                    fit: BoxFit.cover,
-                  ),
+                  GestureDetector(
+                      child: new Image.asset(
+                        'images/icons/avatar-female.png',
+                        height: 100.0,
+                        fit: BoxFit.cover,
+                      ),
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                AvatarBuilderScreen(type: 'female'),
+                          ),
+                        );
+                      }),
+                  GestureDetector(
+                      child: new Image.asset(
+                        'images/icons/avatar-alien.png',
+                        height: 100.0,
+                        fit: BoxFit.cover,
+                      ),
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                AvatarBuilderScreen(type: 'alien'),
+                          ),
+                        );
+                      }),
+                  GestureDetector(
+                      child: new Image.asset(
+                        'images/icons/avatar-male.png',
+                        height: 100.0,
+                        fit: BoxFit.cover,
+                      ),
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                AvatarBuilderScreen(type: 'male'),
+                          ),
+                        );
+                      })
                 ],
               ),
             ),
