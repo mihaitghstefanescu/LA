@@ -15,6 +15,7 @@ dependencies:
   camera:
   path_provider:
   path:
+  ff_navigation_bar: ^0.0.1
 
 dev_dependencies:
   flutter_test:
