@@ -19,33 +19,59 @@ class MainMenu extends StatefulWidget {
 }
 
 class MainMenuState extends State<MainMenu> {
-  final List<Widget> pages = [
-    MenuPage(
-      key: PageStorageKey('MenuPage'),
-    ),
-    ManageAvatar(
-      key: PageStorageKey('ManageAvatar'),
-    ),
-    PegasusPage(
-      key: PageStorageKey('PegasusPage'),
-    ),
-    OffersPage(
-      key: PageStorageKey('OffersPage'),
-    ),
-    CommunityPage(
-      key: PageStorageKey('CommunityPage'),
-    ),
-    ReadAvatarPage(
-      key: PageStorageKey('ReadAvatarPage'),
-    ),
-    ShareAvatarPage(
-      key: PageStorageKey('ShareAvatarPage'),
-    ),
-  ];
-
-  final PageStorageBucket bucket = PageStorageBucket();
-
   int _selectedIndex = 0;
+
+  void goToManageAvatar() {
+    setState(() {
+      _selectedIndex = 1;
+    });
+  }
+
+  void goToPegasus() {
+    setState(() {
+      _selectedIndex = 2;
+    });
+  }
+
+  void goToOffers() {
+    setState(() {
+      _selectedIndex = 3;
+    });
+  }
+
+  void goToCommunity() {
+    setState(() {
+      _selectedIndex = 4;
+    });
+  }
+
+  Widget body() {
+    Widget _body;
+    switch (_selectedIndex) {
+      case 0:
+        _body = MenuEntries(
+          goToManageAvatar,
+          goToPegasus,
+          goToOffers,
+          goToCommunity,
+        );
+        break;
+      case 1:
+        _body = ManageAvatar();
+        break;
+      case 2:
+        _body = PegasusPage();
+        break;
+      case 3:
+        _body = OffersPage();
+        break;
+      case 4:
+        _body = CommunityPage();
+        break;
+    }
+
+    return _body;
+  }
 
   Widget _bottomNavigationBar(int selectedIndex) => FFNavigationBar(
         theme: FFNavigationBarTheme(
@@ -66,12 +92,12 @@ class MainMenuState extends State<MainMenu> {
           FFNavigationBarItem(
             iconData: Icons.home,
             label: '',
-            selectedBackgroundColor: Colors.deepPurple[300],
+            selectedBackgroundColor: Colors.blueAccent,
           ),
           FFNavigationBarItem(
             iconData: Icons.person_outline,
             label: '',
-            selectedBackgroundColor: Colors.orange,
+            selectedBackgroundColor: Colors.deepPurple[300],
           ),
           FFNavigationBarItem(
             iconData: Icons.credit_card,
@@ -86,7 +112,7 @@ class MainMenuState extends State<MainMenu> {
           FFNavigationBarItem(
             iconData: Icons.people,
             label: '',
-            selectedBackgroundColor: Colors.blueAccent,
+            selectedBackgroundColor: Colors.orange,
           ),
         ],
       );
@@ -95,18 +121,23 @@ class MainMenuState extends State<MainMenu> {
   Widget build(BuildContext context) {
     return Scaffold(
       bottomNavigationBar: _bottomNavigationBar(_selectedIndex),
-      body: PageStorage(
-        child: pages[_selectedIndex],
-        bucket: bucket,
-      ),
+      body: body(),
     );
   }
 }
 
-class MenuPage extends StatelessWidget {
-  MenuPage({
-    Key key,
-  }) : super(key: key);
+class MenuEntries extends StatelessWidget {
+  MenuEntries(
+    this.goToManageAvatar,
+    this.goToPegasus,
+    this.goToOffers,
+    this.goToCommunity,
+  );
+
+  final Function goToManageAvatar;
+  final Function goToPegasus;
+  final Function goToOffers;
+  final Function goToCommunity;
 
   @override
   Widget build(BuildContext context) {
@@ -135,7 +166,7 @@ class MenuPage extends StatelessWidget {
                         image: AssetImage('images/manage_avatar.PNG'),
                         child: InkWell(
                           onTap: () {
-                            // todo
+                            goToManageAvatar();
                           },
                         ),
                       ),
@@ -147,9 +178,7 @@ class MenuPage extends StatelessWidget {
                         image: AssetImage('images/community.PNG'),
                         child: InkWell(
                           onTap: () {
-                            /*setState(() {
-                              selectedIndex = 4;
-                            });*/
+                            goToCommunity();
                           },
                         ),
                       ),
@@ -167,9 +196,7 @@ class MenuPage extends StatelessWidget {
                         image: AssetImage('images/pegasus.PNG'),
                         child: InkWell(
                           onTap: () {
-                            /*setState(() {
-                              selectedIndex = 2;
-                            });*/
+                            goToPegasus();
                           },
                         ),
                       ),
@@ -181,9 +208,7 @@ class MenuPage extends StatelessWidget {
                         image: AssetImage('images/view_offers.PNG'),
                         child: InkWell(
                           onTap: () {
-                            /*setState(() {
-                              selectedIndex = 3;
-                            });*/
+                            goToOffers();
                           },
                         ),
                       ),
@@ -200,7 +225,14 @@ class MenuPage extends StatelessWidget {
                       child: Ink.image(
                         image: AssetImage('images/read_avatar.PNG'),
                         child: InkWell(
-                          onTap: () {},
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => ReadAvatarPage(),
+                              ),
+                            );
+                          },
                         ),
                       ),
                     ),
@@ -211,9 +243,12 @@ class MenuPage extends StatelessWidget {
                         image: AssetImage('images/share_avatar.PNG'),
                         child: InkWell(
                           onTap: () {
-                            /*setState(() {
-                              selectedIndex = 1;
-                            });*/
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => ShareAvatarPage(),
+                              ),
+                            );
                           },
                         ),
                       ),
