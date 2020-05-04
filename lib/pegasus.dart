@@ -7,7 +7,7 @@ class PegasusPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Pegasus Flyte Card"),
+        title: Text("Manage Avatar"),
       ),
       body: ListView.builder(itemBuilder: (context, index) {
         return ListTile(
