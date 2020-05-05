@@ -31,15 +31,16 @@ class AvatarPropertiesWidget extends StatefulWidget {
 
 class _AvatarPropertiesState extends State<AvatarPropertiesWidget> {
   String _avatarGender = 'male';
+  String _avatarSkin = 'alien';
   String _avatarActiveProperty = 'skin';
   Map<String, String> _avatarProperties = {
-    'skin': '-vamp',
+    'skin': 'alien',
     'hair': '',
-    'eyebrows': '01-vamp',
-    'eyes': '01-1',
-    'nose': '02-vamp',
-    'mouth': '04-vamp',
-    'chin': '01-vamp.png',
+    'eyebrows': '-1',
+    'eyes': '-1-1',
+    'nose': '-1',
+    'mouth': '-1',
+    'chin': '',
     'beard': '',
     'glasses': '',
   };
@@ -105,10 +106,11 @@ class _AvatarPropertiesState extends State<AvatarPropertiesWidget> {
         AvatarModel.AVATAR_PROPERTIES[_avatarGender];
     var properties = propertiesMap.keys;
     var imgPath = 'images/icons/avatar-' + _avatarGender + '-';
+    var imgExtension = '.png';
     for (var property in properties) {
       list.add(new GestureDetector(
-        child:
-            new Image.asset(imgPath + property + '.png', fit: BoxFit.fitHeight),
+        child: new Image.asset(imgPath + property + imgExtension,
+            fit: BoxFit.fitHeight),
         onTap: () {
           _setPropertyOptions(property);
         },
@@ -119,33 +121,78 @@ class _AvatarPropertiesState extends State<AvatarPropertiesWidget> {
 
   Widget _getPropertiesOptions() {
     List<Widget> list = new List<Widget>();
-    Map<String, dynamic> property =
-        AvatarModel.AVATAR_PROPERTIES[_avatarGender][_avatarActiveProperty];
-    var propertiesOptions = property['variations'];
-    var imgPrefix = property['prefix'];
-    var imgExtension = 'png';
-    var baseImgPath = AvatarModel.AVATAR_ASSETS_BASE_PATH +
-        '/' +
-        _avatarGender +
-        '/' +
-        imgPrefix +
-        _avatarActiveProperty;
+    var basePath = AvatarModel.AVATAR_ASSETS_BASE_PATH + '/' + _avatarGender;
+    var removeIconPath = 'images/icons/remove.png';
+    List<String> propertyOptions = [];
+    var imgExtension = '.png';
+    var imgPath = basePath + '/';
+    double imgScale = 10.0;
+    double alignX = 0.0;
+    double alignY = 0.0;
+    var isSkinProperty = _avatarActiveProperty == 'skin' ? true : false;
 
-    for (var i = 0; i < propertiesOptions.length; i++) {
-      var p = propertiesOptions[i];
-      var imgPath = '';
-      if (p != '') {
-        imgPath = baseImgPath + p + '.' + imgExtension;
+    if (isSkinProperty == true) {
+      propertyOptions = AvatarModel.AVATAR_SKINS;
+      imgScale = 7;
+      alignX = 2.5;
+      alignY = 0.3;
+    } else {
+      Map<String, dynamic> propertyObject =
+          AvatarModel.AVATAR_PROPERTIES[_avatarGender][_avatarActiveProperty];
+      bool skinVariant = propertyObject['skinVariant'];
+      bool removable = propertyObject['removable'];
+      int variationsCount = propertyObject['variationsCount'];
+      List subVariations = propertyObject['subVariations'];
+      imgScale = propertyObject['scale'];
+      alignX = propertyObject['alignX'];
+      alignY = propertyObject['alignY'];
+      if (skinVariant == true) {
+        imgPath += _avatarSkin + '/';
+        for (var i = 0; i < variationsCount; i++) {
+          propertyOptions.add('-' + (i + 1).toString());
+        }
       } else {
-        imgPath = 'images/icons/remove.png';
+        imgPath += 'common/';
+        for (var i = 0; i < variationsCount; i++) {
+          for (var j = 0; j < subVariations[i]; j++) {
+            propertyOptions
+                .add(('-' + (i + 1).toString() + '-' + (j + 1).toString()));
+          }
+        }
       }
-      bool isActive = p == _avatarProperties[_avatarActiveProperty];
+      if (removable == true) {
+        propertyOptions.add('');
+      }
+    }
+
+    for (var i = 0; i < propertyOptions.length; i++) {
+      var p = propertyOptions[i];
+      bool isActive =
+          p == _avatarProperties[_avatarActiveProperty] ? true : false;
+      var assetPath = '';
+
+      if (isSkinProperty == true) {
+        assetPath = imgPath + p + '/' + _avatarActiveProperty + imgExtension;
+      } else {
+        if (p != '') {
+          assetPath = imgPath + _avatarActiveProperty + p + imgExtension;
+        } else {
+          assetPath = removeIconPath;
+          imgScale = 10;
+          alignX = 0;
+          alignY = 0;
+        }
+      }
+
       list.add(new GestureDetector(
         child: new Container(
-          padding: p != ''
-              ? const EdgeInsets.fromLTRB(0, 0, 8, 3)
-              : const EdgeInsets.all(40),
-          child: new Image.asset(imgPath, fit: BoxFit.fitWidth),
+          padding: isActive ? null : const EdgeInsets.all(2.0),
+          child: new Image.asset(
+            assetPath,
+            fit: BoxFit.none,
+            scale: imgScale.toDouble(),
+            alignment: Alignment(alignX, alignY),
+          ),
           decoration: new BoxDecoration(
             color: Colors.grey[200],
             borderRadius: BorderRadius.all(Radius.circular(10)),
@@ -183,21 +230,23 @@ class _AvatarPropertiesState extends State<AvatarPropertiesWidget> {
     List<Widget> list = new List<Widget>();
     Map<String, dynamic> propertiesMap =
         AvatarModel.AVATAR_PROPERTIES[_avatarGender];
+    var basePath = AvatarModel.AVATAR_ASSETS_BASE_PATH + '/' + _avatarGender;
     var propertiesKeys = propertiesMap.keys;
+    var imgPath = '';
+    var imgExtension = '.png';
+
     for (var propertyKey in propertiesKeys) {
-      var property = propertiesMap[propertyKey];
-      var propertyOption = _avatarProperties[propertyKey];
-      var imgPrefix = property['prefix'];
-      var imgExtension = 'png';
-      var imgPath = AvatarModel.AVATAR_ASSETS_BASE_PATH +
-          '/' +
-          _avatarGender +
-          '/' +
-          imgPrefix +
-          propertyKey +
-          propertyOption +
-          '.' +
-          imgExtension;
+      imgPath = basePath + '/';
+      if (propertyKey == 'skin') {
+        imgPath += _avatarSkin + '/skin' + imgExtension;
+      } else {
+        Map<String, dynamic> propertyObject = propertiesMap[propertyKey];
+        var propertyOption = _avatarProperties[propertyKey];
+        var skinVariant = propertyObject['skinVariant'];
+        imgPath += (skinVariant ? _avatarSkin : 'common') + '/';
+        imgPath += propertyKey + propertyOption + imgExtension;
+      }
+
       list.add(new Container(
         padding: const EdgeInsets.all(3),
         child: new Image.asset(imgPath, fit: BoxFit.cover),
@@ -222,6 +271,9 @@ class _AvatarPropertiesState extends State<AvatarPropertiesWidget> {
   void _setPropertyOption(property, option) {
     setState(() {
       _avatarProperties[property] = option;
+      if (property == 'skin') {
+        _avatarSkin = option;
+      }
     });
   }
 }
@@ -240,53 +292,78 @@ class AvatarModel {
 
   static const Map<String, dynamic> AVATAR_PROPERTIES = {
     'male': {
+      'skin': '',
       'hair': {
-        'skin_variant': false,
+        'skinVariant': false,
         'removable': true,
-        'variations_count': 10,
-        'sub_variations': [6, 6, 7, 6, 6, 6, 6, 6, 6, 6]
+        'variationsCount': 10,
+        'subVariations': [6, 6, 7, 6, 6, 6, 6, 6, 6, 6],
+        'scale': 7.0,
+        'alignX': 2.5,
+        'alignY': -0.6
       },
       'eyebrows': {
-        'skin_variant': true,
+        'skinVariant': true,
         'removable': false,
-        'variations_count': 10,
-        'sub_variations': []
+        'variationsCount': 10,
+        'subVariations': [],
+        'scale': 5.0,
+        'alignX': 0.25,
+        'alignY': 0.3
       },
       'eyes': {
-        'skin_variant': false,
+        'skinVariant': false,
         'removable': false,
-        'variations_count': 10,
-        'sub_variations': [6, 1, 6, 6, 6, 1, 1, 6, 6, 6]
+        'variationsCount': 10,
+        'subVariations': [6, 1, 6, 6, 6, 1, 1, 6, 6, 6],
+        'scale': 4.2,
+        'alignX': 0.2,
+        'alignY': 0.3
       },
       'nose': {
-        'skin_variant': true,
+        'skinVariant': true,
         'removable': false,
-        'variations_count': 10,
-        'sub_variations': []
+        'variationsCount': 10,
+        'subVariations': [],
+        'scale': 4.0,
+        'alignX': 0.2,
+        'alignY': 0.5
       },
       'chin': {
-        'skin_variant': true,
+        'skinVariant': true,
         'removable': true,
-        'variations_count': 10,
-        'sub_variations': []
+        'variationsCount': 10,
+        'subVariations': [],
+        'scale': 5.0,
+        'alignX': 0.2,
+        'alignY': 1.3
       },
       'mouth': {
-        'skin_variant': true,
+        'skinVariant': true,
         'removable': false,
-        'variations_count': 11,
-        'sub_variations': []
+        'variationsCount': 11,
+        'subVariations': [],
+        'scale': 4.3,
+        'alignX': 0.2,
+        'alignY': 0.8
       },
       'beard': {
-        'skin_variant': false,
+        'skinVariant': false,
         'removable': true,
-        'variations_count': 10,
-        'sub_variations': [2, 1, 1, 1, 2, 2, 1, 1, 1, 1]
+        'variationsCount': 10,
+        'subVariations': [2, 1, 1, 1, 2, 2, 1, 1, 1, 1],
+        'scale': 5.0,
+        'alignX': 0.2,
+        'alignY': 0.9
       },
       'glasses': {
-        'skin_variant': false,
+        'skinVariant': false,
         'removable': true,
-        'variations_count': 4,
-        'sub_variations': [6, 6, 6, 6]
+        'variationsCount': 4,
+        'subVariations': [6, 6, 6, 6],
+        'scale': 5.0,
+        'alignX': 0.2,
+        'alignY': 0.3
       },
     }
   };

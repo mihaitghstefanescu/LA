@@ -26,8 +26,11 @@ flutter:
   uses-material-design: true
   assets:
     - images/
-    - images/avatar/
-    - images/avatar/male/
+    - images/avatar/male/alien/
+    - images/avatar/male/common/
+    - images/avatar/male/robot/
+    - images/avatar/male/vampire/
+    - images/avatar/male/zombie/
     - images/icons/
   fonts:
     - family: Montserrat
