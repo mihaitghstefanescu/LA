@@ -6,15 +6,16 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-          decoration: BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage("images/bg.jpg"),
-              fit: BoxFit.cover,
-            ),
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage("images/bg.jpg"),
+            fit: BoxFit.cover,
           ),
-          padding: EdgeInsets.symmetric(vertical: 50.0, horizontal: 15.0),
-          constraints: BoxConstraints.expand(),
-          child: new Buttons()),
+        ),
+        padding: EdgeInsets.symmetric(vertical: 50.0, horizontal: 15.0),
+        constraints: BoxConstraints.expand(),
+        child: new Buttons(),
+      ),
     );
   }
 }
@@ -22,51 +23,71 @@ class HomeScreen extends StatelessWidget {
 class Buttons extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Align(
-      alignment: Alignment.bottomCenter,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: <Widget>[
-          Expanded(
-            child: Container(
-              height: 50,
-              child: RaisedButton(
-                onPressed: () {
-                  Navigator.pushNamed(context, '/LOG_IN');
-                },
-                child: const Text('LOG IN', style: TextStyle(fontSize: 16)),
-                color: Colors.white70.withOpacity(1),
-                textColor: Colors.indigo,
-                elevation: 5,
-                shape: RoundedRectangleBorder(
-                  borderRadius: new BorderRadius.circular(10.0),
-                ),
+    return Column(
+      children: <Widget>[
+        SizedBox(
+          height: 130,
+        ),
+        Expanded(
+          child: Container(
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage("images/Liquid-Avatar-Logo-thumb-v1.png"),
+                fit: BoxFit.contain,
               ),
             ),
           ),
-          SizedBox(
-            width: 10,
-          ),
-          Expanded(
-            child: Container(
-              height: 50,
-              child: RaisedButton(
-                onPressed: () {
-                  Navigator.pushNamed(context, '/CREATE_AVATAR');
-                },
-                child:
-                    const Text('CREATE AVATAR', style: TextStyle(fontSize: 16)),
-                color: Colors.indigo,
-                textColor: Colors.white,
-                elevation: 5,
-                shape: RoundedRectangleBorder(
-                  borderRadius: new BorderRadius.circular(10.0),
+        ),
+        Expanded(
+          child: Align(
+            alignment: Alignment.bottomCenter,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                Expanded(
+                  child: Container(
+                    height: 50,
+                    child: RaisedButton(
+                      onPressed: () {
+                        Navigator.pushNamed(context, '/LOG_IN');
+                      },
+                      child:
+                          const Text('LOG IN', style: TextStyle(fontSize: 16)),
+                      color: Colors.white70.withOpacity(1),
+                      textColor: Colors.indigo,
+                      elevation: 5,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: new BorderRadius.circular(10.0),
+                      ),
+                    ),
+                  ),
                 ),
-              ),
+                SizedBox(
+                  width: 10,
+                ),
+                Expanded(
+                  child: Container(
+                    height: 50,
+                    child: RaisedButton(
+                      onPressed: () {
+                        Navigator.pushNamed(context, '/CREATE_AVATAR');
+                      },
+                      child: const Text('CREATE AVATAR',
+                          style: TextStyle(fontSize: 16)),
+                      color: Colors.indigo,
+                      textColor: Colors.white,
+                      elevation: 5,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: new BorderRadius.circular(10.0),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }
