@@ -25,8 +25,8 @@ class Buttons extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
-        SizedBox(
-          height: 130,
+        Expanded(
+          child: Container(),
         ),
         Expanded(
           child: Container(
