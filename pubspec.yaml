@@ -31,6 +31,12 @@ flutter:
     - images/avatar/male/robot/
     - images/avatar/male/vampire/
     - images/avatar/male/zombie/
+    - images/avatar/female/afro/
+    - images/avatar/female/alien/
+    - images/avatar/female/common/
+    - images/avatar/female/robot/
+    - images/avatar/female/vampire/
+    - images/avatar/female/zombie/
     - images/icons/
   fonts:
     - family: Montserrat
