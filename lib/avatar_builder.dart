@@ -364,8 +364,9 @@ class AvatarModel {
       },
     },
     'female': {
-      'skin': {'scale': 6.9, 'alignX': 0.0, 'alignY': 0.1},
+      'skin': {'label': 'Skin', 'scale': 6.9, 'alignX': 0.0, 'alignY': 0.1},
       'hair': {
+        'label': 'Hairstyle',
         'skinVariant': false,
         'removable': true,
         'variationsCount': 1,
@@ -375,6 +376,7 @@ class AvatarModel {
         'alignY': 0.1
       },
       'eyebrows': {
+        'label': 'Brows',
         'skinVariant': true,
         'removable': false,
         'variationsCount': 17,
@@ -384,6 +386,7 @@ class AvatarModel {
         'alignY': 0.3
       },
       'eyes': {
+        'label': 'Eyes',
         'skinVariant': false,
         'removable': false,
         'variationsCount': 1,
@@ -393,6 +396,7 @@ class AvatarModel {
         'alignY': 0.3
       },
       'nose': {
+        'label': 'Nose',
         'skinVariant': true,
         'removable': false,
         'variationsCount': 15,
@@ -402,6 +406,7 @@ class AvatarModel {
         'alignY': 0.5
       },
       'chin': {
+        'label': 'Chin',
         'skinVariant': true,
         'removable': true,
         'variationsCount': 9,
@@ -411,6 +416,7 @@ class AvatarModel {
         'alignY': 1.3
       },
       'mouth': {
+        'label': 'Mouth',
         'skinVariant': true,
         'removable': false,
         'variationsCount': 10,
@@ -420,6 +426,7 @@ class AvatarModel {
         'alignY': 0.6
       },
       'accessories': {
+        'label': 'Accessories',
         'skinVariant': false,
         'removable': true,
         'variationsCount': 1,
@@ -429,6 +436,7 @@ class AvatarModel {
         'alignY': 0.3
       },
       'glasses': {
+        'label': 'Glasses',
         'skinVariant': false,
         'removable': true,
         'variationsCount': 1,
