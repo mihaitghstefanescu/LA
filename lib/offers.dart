@@ -8,6 +8,13 @@ class Place {
   Place({this.imageUrl, this.name, this.country});
 }
 
+class Fashion {
+  String imgSrc;
+  String name;
+
+  Fashion({this.imgSrc, this.name});
+}
+
 class OffersPage extends StatelessWidget {
   const OffersPage({Key key}) : super(key: key);
 
@@ -49,6 +56,49 @@ class OffersPage extends StatelessWidget {
               "https://d36tnp772eyphs.cloudfront.net/blogs/1/2018/02/Chichen-Itza-at-night.jpg",
           name: "Chichén Itzá",
           country: "Mexico"),
+    ];
+
+    List fashionList = [
+      Fashion(
+        imgSrc: "images/fashion-1.jpg",
+        name: "Summer 1",
+      ),
+      Fashion(
+        imgSrc: "images/fashion-2.jpg",
+        name: "Summer 2",
+      ),
+      Fashion(
+        imgSrc: "images/fashion-3.jpg",
+        name: "Summer 3",
+      ),
+      Fashion(
+        imgSrc: "images/fashion-4.jpg",
+        name: "Summer 4",
+      ),
+    ];
+
+    final titles = [
+      'bike',
+      'boat',
+      'bus',
+      'car',
+      'railway',
+      'run',
+      'subway',
+      'transit',
+      'walk'
+    ];
+
+    final icons = [
+      Icons.directions_bike,
+      Icons.directions_boat,
+      Icons.directions_bus,
+      Icons.directions_car,
+      Icons.directions_railway,
+      Icons.directions_run,
+      Icons.directions_subway,
+      Icons.directions_transit,
+      Icons.directions_walk
     ];
 
     return Scaffold(
@@ -104,7 +154,7 @@ class OffersPage extends StatelessWidget {
             ),
           ),
           Container(
-            padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
+            padding: const EdgeInsets.fromLTRB(10, 15, 0, 10),
             child: Text(
               'NEW TRAVEL OFFERS FOR YOU',
               style: TextStyle(
@@ -116,35 +166,30 @@ class OffersPage extends StatelessWidget {
             ),
           ),
           Expanded(
-            child: ListView(
-              // This next line does the trick.
+            child: ListView.builder(
+              itemCount: fashionList.length,
               scrollDirection: Axis.horizontal,
-              children: <Widget>[
-                Container(
-                  width: 160.0,
-                  color: Colors.red,
-                ),
-                Container(
-                  width: 160.0,
-                  color: Colors.blue,
-                ),
-                Container(
-                  width: 160.0,
-                  color: Colors.green,
-                ),
-                Container(
-                  width: 160.0,
-                  color: Colors.yellow,
-                ),
-                Container(
-                  width: 160.0,
-                  color: Colors.orange,
-                ),
-              ],
+              shrinkWrap: true,
+              itemBuilder: (context, index) {
+                return Card(
+                  child: Column(
+                    children: <Widget>[
+                      Container(
+                        child: Image.asset(
+                          fashionList[index].imgSrc,
+                          width: 350,
+                          height: 120,
+                        ),
+                      ),
+                      Text(fashionList[index].name),
+                    ],
+                  ),
+                );
+              },
             ),
           ),
           Container(
-            padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
+            padding: const EdgeInsets.fromLTRB(10, 15, 0, 0),
             child: Text(
               'BROWSE ALL RETAIL OFFERS',
               style: TextStyle(
@@ -155,6 +200,19 @@ class OffersPage extends StatelessWidget {
               ),
             ),
           ),
+          Expanded(
+            child: ListView.builder(
+              itemCount: titles.length,
+              itemBuilder: (context, index) {
+                return Card(
+                  child: ListTile(
+                    leading: Icon(icons[index]),
+                    title: Text(titles[index]),
+                  ),
+                );
+              },
+            ),
+          )
         ],
       ),
     );
