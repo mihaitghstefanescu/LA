@@ -18,6 +18,8 @@ dependencies:
   ff_navigation_bar: ^0.0.1
   http: 0.12.1
 
+  barcode_scan: ^3.0.1
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
