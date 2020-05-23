@@ -51,54 +51,42 @@ class SignUpScreen extends StatelessWidget {
               height: 60,
             ),
             Container(
+              padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
-                  GestureDetector(
-                      child: new Image.asset(
-                        'images/icons/avatar-female.png',
-                        height: 100.0,
-                        fit: BoxFit.cover,
-                      ),
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) =>
-                                AvatarBuilderScreen(type: 'female'),
+                  new Expanded(
+                      child: GestureDetector(
+                          child: new Image.asset(
+                            'images/icons/avatar-female.png',
+                            height: 250.0,
+                            fit: BoxFit.cover,
                           ),
-                        );
-                      }),
-                  GestureDetector(
-                      child: new Image.asset(
-                        'images/icons/avatar-alien.png',
-                        height: 100.0,
-                        fit: BoxFit.cover,
-                      ),
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) =>
-                                AvatarBuilderScreen(type: 'alien'),
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    AvatarBuilderScreen(type: 'female'),
+                              ),
+                            );
+                          })),
+                  new Expanded(
+                      child: GestureDetector(
+                          child: new Image.asset(
+                            'images/icons/avatar-male.png',
+                            height: 250.0,
+                            fit: BoxFit.cover,
                           ),
-                        );
-                      }),
-                  GestureDetector(
-                      child: new Image.asset(
-                        'images/icons/avatar-male.png',
-                        height: 100.0,
-                        fit: BoxFit.cover,
-                      ),
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) =>
-                                AvatarBuilderScreen(type: 'male'),
-                          ),
-                        );
-                      })
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    AvatarBuilderScreen(type: 'male'),
+                              ),
+                            );
+                          }))
                 ],
               ),
             ),

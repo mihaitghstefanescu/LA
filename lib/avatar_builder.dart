@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:liquid_avatar/services/avatar.dart';
 
 class AvatarBuilderScreen extends StatelessWidget {
   final String type;
@@ -11,7 +12,7 @@ class AvatarBuilderScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    int tabsNumber = AvatarModel.AVATAR_PROPERTIES[this.type].keys.length;
+    int tabsNumber = AvatarService.AVATAR_PROPERTIES[this.type].keys.length;
     return DefaultTabController(
       child: new Scaffold(
           backgroundColor: Colors.grey[50],
@@ -35,8 +36,9 @@ class AvatarPropertiesWidget extends StatefulWidget {
 
 class _AvatarPropertiesState extends State<AvatarPropertiesWidget> {
   String _avatarGender = 'female';
+  double _avatarShrink = 0.9;
   Map<String, String> _avatarProperties = {
-    'skin': 'alien',
+    'skin': 'vampire',
     'hair': '',
     'eyebrows': '-1',
     'eyes': '-1-1',
@@ -60,63 +62,90 @@ class _AvatarPropertiesState extends State<AvatarPropertiesWidget> {
               'Create Avatar',
               style: TextStyle(
                 fontFamily: 'Montserrat',
-                fontSize: 26,
+                fontSize: 24,
                 color: Colors.indigo,
               ),
             ),
           ),
-          new Container(
+          Container(
               decoration: new BoxDecoration(color: Colors.transparent),
               child: new Column(
                 children: <Widget>[
                   new Container(
-                      height: MediaQuery.of(context).size.height * 0.45,
-                      width: MediaQuery.of(context).size.width * 0.6,
+                      height: MediaQuery.of(context).size.height *
+                          0.4 *
+                          _avatarShrink,
+                      width: MediaQuery.of(context).size.width *
+                          0.7 *
+                          _avatarShrink,
                       decoration: new BoxDecoration(color: Colors.transparent),
                       child: _getStackedProperties(_avatarProperties))
                 ],
               )),
           Expanded(
               child: new Container(
-                  alignment: Alignment.bottomCenter,
-                  margin: new EdgeInsets.fromLTRB(0, 0, 0, 0),
                   decoration: new BoxDecoration(
-                      color: Colors.grey[200],
-                      borderRadius: new BorderRadius.only(
-                          topLeft: Radius.circular(30.0),
-                          topRight: Radius.circular(30.0)),
-                      boxShadow: [
-                        new BoxShadow(
-                            color: Colors.grey[350],
-                            blurRadius: 10.0,
-                            spreadRadius: 5.0,
-                            offset: Offset(0, 0))
-                      ]),
+                    color: Colors.grey[200],
+                  ),
                   child: new Column(children: <Widget>[
                     new Container(
                         decoration: new BoxDecoration(
-                          color: Colors.grey[200],
+                          color: Colors.grey[100],
                           boxShadow: [
                             new BoxShadow(
                                 color: Colors.grey[350],
                                 blurRadius: 10.0,
                                 spreadRadius: 5.0,
-                                offset: Offset(0, 0))
+                                offset: Offset(0.0, 8.0))
                           ],
                         ),
                         child: _getPropertiesTabBar()),
                     new Expanded(
-                      child: _getPropertiesTabBarView(),
+                      child: GestureDetector(child: _getPropertiesTabBarView()),
                     ),
-                  ])))
+                  ]))),
+          SizedBox(
+            height: 90,
+            child: Row(
+              children: [
+                Expanded(
+                    child: Container(
+                  padding: EdgeInsets.all(15),
+                  height: 90,
+                  decoration: new BoxDecoration(
+                    color: Colors.grey[100],
+                    boxShadow: [
+                      new BoxShadow(
+                          color: Colors.grey[350],
+                          blurRadius: 10.0,
+                          spreadRadius: 5.0,
+                          offset: Offset(0.0, -8.0))
+                    ],
+                  ),
+                  child: new RaisedButton(
+                    onPressed: () {},
+                    child: const Text('SAVE AVATAR',
+                        style:
+                            TextStyle(fontFamily: 'Montserrat', fontSize: 16)),
+                    color: Colors.indigo,
+                    textColor: Colors.white,
+                    elevation: 5,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: new BorderRadius.circular(10.0),
+                    ),
+                  ),
+                ))
+              ],
+            ),
+          )
         ]);
   }
 
   Widget _getPropertiesTabBar() {
     List<Widget> tabButtons = new List<Widget>();
     Map<String, dynamic> propertiesMap =
-        AvatarModel.AVATAR_PROPERTIES[_avatarGender];
-    var properties = propertiesMap.keys;
+        AvatarService.AVATAR_PROPERTIES[_avatarGender];
+    var properties = AvatarService.AVATAR_PROPERTIES_ORDER[_avatarGender];
     for (var property in properties) {
       tabButtons.add(new Tab(text: propertiesMap[property]['label']));
     }
@@ -131,20 +160,18 @@ class _AvatarPropertiesState extends State<AvatarPropertiesWidget> {
 
   Widget _getPropertiesTabBarView() {
     List<Widget> tabViews = new List<Widget>();
-    Map<String, dynamic> propertiesMap =
-        AvatarModel.AVATAR_PROPERTIES[_avatarGender];
-    var properties = propertiesMap.keys;
+    var properties = AvatarService.AVATAR_PROPERTIES_ORDER[_avatarGender];
     for (var activeProperty in properties) {
       List<Widget> list = new List<Widget>();
       List<String> propertyOptions = [];
       bool isSkinProperty = activeProperty == 'skin' ? true : false;
       Map<String, dynamic> propertyObject =
-          AvatarModel.AVATAR_PROPERTIES[_avatarGender][activeProperty];
+          AvatarService.AVATAR_PROPERTIES[_avatarGender][activeProperty];
       Map<String, String> avatarProperties =
           new Map<String, String>.from(_avatarProperties);
 
       if (isSkinProperty == true) {
-        propertyOptions = AvatarModel.AVATAR_SKINS[_avatarGender];
+        propertyOptions = AvatarService.AVATAR_SKINS[_avatarGender];
       } else {
         bool skinVariant = propertyObject['skinVariant'];
         bool removable = propertyObject['removable'];
@@ -174,7 +201,7 @@ class _AvatarPropertiesState extends State<AvatarPropertiesWidget> {
 
         avatarProperties[activeProperty] = property;
 
-        list.add(new GestureDetector(
+        list.add(GestureDetector(
           child: new Container(
             padding: isActive ? null : const EdgeInsets.all(2.0),
             child: _getStackedProperties(avatarProperties),
@@ -216,8 +243,8 @@ class _AvatarPropertiesState extends State<AvatarPropertiesWidget> {
   Widget _getStackedProperties(avatarProperties) {
     List<Widget> list = new List<Widget>();
     Map<String, dynamic> propertiesMap =
-        AvatarModel.AVATAR_PROPERTIES[_avatarGender];
-    var basePath = AvatarModel.AVATAR_ASSETS_BASE_PATH + '/' + _avatarGender;
+        AvatarService.AVATAR_PROPERTIES[_avatarGender];
+    var basePath = AvatarService.AVATAR_ASSETS_BASE_PATH + '/' + _avatarGender;
     var propertiesKeys = propertiesMap.keys;
     var imgPath = '';
     var imgExtension = '.png';
@@ -262,181 +289,4 @@ class _AvatarPropertiesState extends State<AvatarPropertiesWidget> {
       _avatarProperties[property] = option;
     });
   }
-}
-
-class AvatarModel {
-  static const String AVATAR_ASSETS_BASE_PATH = 'images/avatar';
-
-  static const List<String> AVATAR_GENDERS = ['male', 'female', 'alien'];
-
-  static const Map<String, dynamic> AVATAR_SKINS = {
-    'male': ['vampire', 'robot', 'alien', 'zombie'],
-    'female': ['vampire', 'afro', 'robot', 'alien', 'zombie']
-  };
-
-  static const Map<String, dynamic> AVATAR_POSITION = {
-    'male': {'scale': 3.0, 'alignX': 0.9, 'alignY': 0.0},
-    'female': {'scale': 3.0, 'alignX': 0.0, 'alignY': 0.0}
-  };
-
-  static const Map<String, dynamic> AVATAR_PROPERTIES = {
-    'male': {
-      'skin': {'label': 'Skin', 'scale': 7.0, 'alignX': 2.5, 'alignY': 0.3},
-      'hair': {
-        'label': 'Hairstyle',
-        'skinVariant': false,
-        'removable': true,
-        'variationsCount': 10,
-        'subVariations': [6, 6, 7, 6, 6, 6, 6, 6, 6, 6],
-        'scale': 7.0,
-        'alignX': 2.5,
-        'alignY': -0.6
-      },
-      'eyebrows': {
-        'label': 'Brows',
-        'skinVariant': true,
-        'removable': false,
-        'variationsCount': 10,
-        'subVariations': [],
-        'scale': 5.0,
-        'alignX': 0.25,
-        'alignY': 0.3
-      },
-      'eyes': {
-        'label': 'Eyes',
-        'skinVariant': false,
-        'removable': false,
-        'variationsCount': 10,
-        'subVariations': [6, 1, 6, 6, 6, 1, 1, 6, 6, 6],
-        'scale': 4.2,
-        'alignX': 0.2,
-        'alignY': 0.3
-      },
-      'nose': {
-        'label': 'Nose',
-        'skinVariant': true,
-        'removable': false,
-        'variationsCount': 10,
-        'subVariations': [],
-        'scale': 4.0,
-        'alignX': 0.2,
-        'alignY': 0.5
-      },
-      'chin': {
-        'label': 'Chin',
-        'skinVariant': true,
-        'removable': true,
-        'variationsCount': 10,
-        'subVariations': [],
-        'scale': 5.0,
-        'alignX': 0.2,
-        'alignY': 1.3
-      },
-      'mouth': {
-        'label': 'Mouth',
-        'skinVariant': true,
-        'removable': false,
-        'variationsCount': 11,
-        'subVariations': [],
-        'scale': 4.3,
-        'alignX': 0.2,
-        'alignY': 0.8
-      },
-      'beard': {
-        'label': 'Facial Hair',
-        'skinVariant': false,
-        'removable': true,
-        'variationsCount': 10,
-        'subVariations': [2, 1, 1, 1, 2, 2, 1, 1, 1, 1],
-        'scale': 5.0,
-        'alignX': 0.2,
-        'alignY': 0.9
-      },
-      'glasses': {
-        'label': 'Eyewear',
-        'skinVariant': false,
-        'removable': true,
-        'variationsCount': 4,
-        'subVariations': [6, 6, 6, 6],
-        'scale': 5.0,
-        'alignX': 0.2,
-        'alignY': 0.3
-      },
-    },
-    'female': {
-      'skin': {'scale': 6.9, 'alignX': 0.0, 'alignY': 0.1},
-      'hair': {
-        'skinVariant': false,
-        'removable': true,
-        'variationsCount': 1,
-        'subVariations': [60],
-        'scale': 6.9,
-        'alignX': 0.0,
-        'alignY': 0.1
-      },
-      'eyebrows': {
-        'skinVariant': true,
-        'removable': false,
-        'variationsCount': 17,
-        'subVariations': [],
-        'scale': 5.0,
-        'alignX': 0.25,
-        'alignY': 0.3
-      },
-      'eyes': {
-        'skinVariant': false,
-        'removable': false,
-        'variationsCount': 1,
-        'subVariations': [56],
-        'scale': 4.2,
-        'alignX': 0.2,
-        'alignY': 0.3
-      },
-      'nose': {
-        'skinVariant': true,
-        'removable': false,
-        'variationsCount': 15,
-        'subVariations': [],
-        'scale': 4.0,
-        'alignX': 0.2,
-        'alignY': 0.5
-      },
-      'chin': {
-        'skinVariant': true,
-        'removable': true,
-        'variationsCount': 9,
-        'subVariations': [],
-        'scale': 5.0,
-        'alignX': 0.2,
-        'alignY': 1.3
-      },
-      'mouth': {
-        'skinVariant': true,
-        'removable': false,
-        'variationsCount': 10,
-        'subVariations': [],
-        'scale': 4.3,
-        'alignX': 0.0,
-        'alignY': 0.6
-      },
-      'accessories': {
-        'skinVariant': false,
-        'removable': true,
-        'variationsCount': 1,
-        'subVariations': [21],
-        'scale': 2.0,
-        'alignX': 0.8,
-        'alignY': 0.3
-      },
-      'glasses': {
-        'skinVariant': false,
-        'removable': true,
-        'variationsCount': 1,
-        'subVariations': [15],
-        'scale': 5.0,
-        'alignX': 0.2,
-        'alignY': 0.3
-      },
-    }
-  };
 }
