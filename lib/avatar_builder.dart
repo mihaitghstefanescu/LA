@@ -123,7 +123,10 @@ class _AvatarPropertiesState extends State<AvatarPropertiesWidget> {
                     ],
                   ),
                   child: new RaisedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      AvatarService.saveAvatar(
+                          _getPropertiesAssetsPaths(_avatarProperties));
+                    },
                     child: const Text('SAVE AVATAR',
                         style:
                             TextStyle(fontFamily: 'Montserrat', fontSize: 16)),
@@ -240,14 +243,14 @@ class _AvatarPropertiesState extends State<AvatarPropertiesWidget> {
     return TabBarView(children: tabViews);
   }
 
-  Widget _getStackedProperties(avatarProperties) {
-    List<Widget> list = new List<Widget>();
+  Map<String, String> _getPropertiesAssetsPaths(avatarProperties) {
     Map<String, dynamic> propertiesMap =
         AvatarService.AVATAR_PROPERTIES[_avatarGender];
     var basePath = AvatarService.AVATAR_ASSETS_BASE_PATH + '/' + _avatarGender;
     var propertiesKeys = propertiesMap.keys;
     var imgPath = '';
     var imgExtension = '.png';
+    Map<String, String> assetsMap = {};
 
     for (var propertyKey in propertiesKeys) {
       if (avatarProperties[propertyKey] != '') {
@@ -261,22 +264,33 @@ class _AvatarPropertiesState extends State<AvatarPropertiesWidget> {
           imgPath += (skinVariant ? avatarProperties['skin'] : 'common') + '/';
           imgPath += propertyKey + propertyOption + imgExtension;
         }
-
-        list.add(new Container(
-          padding: const EdgeInsets.all(0),
-          child: new Row(
-            children: <Widget>[
-              Expanded(
-                child: new Image.asset(imgPath, fit: BoxFit.cover),
-              )
-            ],
-          ),
-          decoration: new BoxDecoration(
-            color: Colors.transparent,
-            borderRadius: BorderRadius.all(Radius.circular(10)),
-          ),
-        ));
+        assetsMap[propertyKey] = imgPath;
       }
+    }
+
+    return assetsMap;
+  }
+
+  Widget _getStackedProperties(avatarProperties) {
+    Map<String, String> assetsMap = _getPropertiesAssetsPaths(avatarProperties);
+    List<Widget> list = new List<Widget>();
+    var propertiesKeys = assetsMap.keys;
+
+    for (var propertyKey in propertiesKeys) {
+      list.add(Container(
+        padding: const EdgeInsets.all(0),
+        child: new Row(
+          children: <Widget>[
+            Expanded(
+              child: new Image.asset(assetsMap[propertyKey], fit: BoxFit.cover),
+            )
+          ],
+        ),
+        decoration: new BoxDecoration(
+          color: Colors.transparent,
+          borderRadius: BorderRadius.all(Radius.circular(10)),
+        ),
+      ));
     }
 
     return Stack(

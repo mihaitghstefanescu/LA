@@ -160,24 +160,14 @@ class AvatarService {
 
   static String imageURL = '';
 
-  static Future saveAvatar() async {
+  static Future saveAvatar(assetsMap) async {
     final http.Response response = await http.post(
       'http://167.172.214.198',
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
       body: jsonEncode(<String, dynamic>{
-        "avatar": {
-          "skin": "images/avatar/male/alien/skin.png",
-          "hair": "images/avatar/male/common/hair-1-1.png",
-          "eyebrows": "images/avatar/male/alien/eyebrows-1.png",
-          "eyes": "images/avatar/male/common/eyes-1-1.png",
-          "nose": "images/avatar/male/alien/nose-1.png",
-          "mouth": "images/avatar/male/alien/mouth-1.png",
-          "chin": "images/avatar/male/alien/chin-1.png",
-          "beard": "images/avatar/male/common/beard-1-1.png",
-          "glasses": "images/avatar/male/common/glasses-1-1.png"
-        },
+        "avatar": assetsMap,
         "_id": "5d4e2641f4f4ed7dd9fb8674875f236b8fcc4394"
       }),
     );
