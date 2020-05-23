@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:liquid_avatar/services/avatar.dart';
 
 class AvatarBuilderScreen extends StatelessWidget {
   final String type;
@@ -11,7 +12,7 @@ class AvatarBuilderScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    int tabsNumber = AvatarModel.AVATAR_PROPERTIES[this.type].keys.length;
+    int tabsNumber = AvatarService.AVATAR_PROPERTIES[this.type].keys.length;
     return DefaultTabController(
       child: new Scaffold(
           backgroundColor: Colors.grey[50],
@@ -143,8 +144,8 @@ class _AvatarPropertiesState extends State<AvatarPropertiesWidget> {
   Widget _getPropertiesTabBar() {
     List<Widget> tabButtons = new List<Widget>();
     Map<String, dynamic> propertiesMap =
-        AvatarModel.AVATAR_PROPERTIES[_avatarGender];
-    var properties = AvatarModel.AVATAR_PROPERTIES_ORDER[_avatarGender];
+        AvatarService.AVATAR_PROPERTIES[_avatarGender];
+    var properties = AvatarService.AVATAR_PROPERTIES_ORDER[_avatarGender];
     for (var property in properties) {
       tabButtons.add(new Tab(text: propertiesMap[property]['label']));
     }
@@ -159,18 +160,18 @@ class _AvatarPropertiesState extends State<AvatarPropertiesWidget> {
 
   Widget _getPropertiesTabBarView() {
     List<Widget> tabViews = new List<Widget>();
-    var properties = AvatarModel.AVATAR_PROPERTIES_ORDER[_avatarGender];
+    var properties = AvatarService.AVATAR_PROPERTIES_ORDER[_avatarGender];
     for (var activeProperty in properties) {
       List<Widget> list = new List<Widget>();
       List<String> propertyOptions = [];
       bool isSkinProperty = activeProperty == 'skin' ? true : false;
       Map<String, dynamic> propertyObject =
-          AvatarModel.AVATAR_PROPERTIES[_avatarGender][activeProperty];
+          AvatarService.AVATAR_PROPERTIES[_avatarGender][activeProperty];
       Map<String, String> avatarProperties =
           new Map<String, String>.from(_avatarProperties);
 
       if (isSkinProperty == true) {
-        propertyOptions = AvatarModel.AVATAR_SKINS[_avatarGender];
+        propertyOptions = AvatarService.AVATAR_SKINS[_avatarGender];
       } else {
         bool skinVariant = propertyObject['skinVariant'];
         bool removable = propertyObject['removable'];
@@ -242,8 +243,8 @@ class _AvatarPropertiesState extends State<AvatarPropertiesWidget> {
   Widget _getStackedProperties(avatarProperties) {
     List<Widget> list = new List<Widget>();
     Map<String, dynamic> propertiesMap =
-        AvatarModel.AVATAR_PROPERTIES[_avatarGender];
-    var basePath = AvatarModel.AVATAR_ASSETS_BASE_PATH + '/' + _avatarGender;
+        AvatarService.AVATAR_PROPERTIES[_avatarGender];
+    var basePath = AvatarService.AVATAR_ASSETS_BASE_PATH + '/' + _avatarGender;
     var propertiesKeys = propertiesMap.keys;
     var imgPath = '';
     var imgExtension = '.png';
@@ -288,161 +289,4 @@ class _AvatarPropertiesState extends State<AvatarPropertiesWidget> {
       _avatarProperties[property] = option;
     });
   }
-}
-
-class AvatarModel {
-  static const String AVATAR_ASSETS_BASE_PATH = 'images/avatar';
-
-  static const List<String> AVATAR_GENDERS = ['male', 'female', 'alien'];
-
-  static const Map<String, dynamic> AVATAR_SKINS = {
-    'male': ['vampire', 'robot', 'alien', 'zombie'],
-    'female': ['vampire', 'afro', 'robot', 'alien', 'zombie']
-  };
-
-  static const Map<String, dynamic> AVATAR_PROPERTIES_ORDER = {
-    'male': [
-      'skin',
-      'hair',
-      'eyebrows',
-      'eyes',
-      'nose',
-      'chin',
-      'mouth',
-      'beard',
-      'glasses'
-    ],
-    'female': [
-      'skin',
-      'hair',
-      'eyebrows',
-      'eyes',
-      'nose',
-      'chin',
-      'mouth',
-      'glasses',
-      'accessories'
-    ],
-  };
-
-  static const Map<String, dynamic> AVATAR_PROPERTIES = {
-    'male': {
-      'skin': {'label': 'Skin'},
-      'eyebrows': {
-        'label': 'Brows',
-        'skinVariant': true,
-        'removable': false,
-        'variationsCount': 10,
-        'subVariations': [],
-      },
-      'eyes': {
-        'label': 'Eyes',
-        'skinVariant': false,
-        'removable': false,
-        'variationsCount': 10,
-        'subVariations': [6, 1, 6, 6, 6, 1, 1, 6, 6, 6],
-      },
-      'nose': {
-        'label': 'Nose',
-        'skinVariant': true,
-        'removable': false,
-        'variationsCount': 10,
-        'subVariations': [],
-      },
-      'chin': {
-        'label': 'Chin',
-        'skinVariant': true,
-        'removable': true,
-        'variationsCount': 10,
-        'subVariations': [],
-      },
-      'mouth': {
-        'label': 'Mouth',
-        'skinVariant': true,
-        'removable': false,
-        'variationsCount': 11,
-        'subVariations': [],
-      },
-      'beard': {
-        'label': 'Facial Hair',
-        'skinVariant': false,
-        'removable': true,
-        'variationsCount': 10,
-        'subVariations': [2, 1, 1, 1, 2, 2, 1, 1, 1, 1],
-      },
-      'glasses': {
-        'label': 'Eyewear',
-        'skinVariant': false,
-        'removable': true,
-        'variationsCount': 4,
-        'subVariations': [6, 6, 6, 6],
-      },
-      'hair': {
-        'label': 'Hairstyle',
-        'skinVariant': false,
-        'removable': true,
-        'variationsCount': 10,
-        'subVariations': [6, 6, 7, 6, 6, 6, 6, 6, 6, 6],
-      },
-    },
-    'female': {
-      'skin': {'label': 'Skin'},
-      'eyebrows': {
-        'label': 'Brows',
-        'skinVariant': true,
-        'removable': false,
-        'variationsCount': 17,
-        'subVariations': [],
-      },
-      'eyes': {
-        'label': 'Eyes',
-        'skinVariant': false,
-        'removable': false,
-        'variationsCount': 1,
-        'subVariations': [56],
-      },
-      'nose': {
-        'label': 'Nose',
-        'skinVariant': true,
-        'removable': false,
-        'variationsCount': 15,
-        'subVariations': [],
-      },
-      'chin': {
-        'label': 'Chin',
-        'skinVariant': true,
-        'removable': true,
-        'variationsCount': 9,
-        'subVariations': [],
-      },
-      'mouth': {
-        'label': 'Mouth',
-        'skinVariant': true,
-        'removable': false,
-        'variationsCount': 10,
-        'subVariations': [],
-      },
-      'glasses': {
-        'label': 'Glasses',
-        'skinVariant': false,
-        'removable': true,
-        'variationsCount': 1,
-        'subVariations': [15],
-      },
-      'hair': {
-        'label': 'Hairstyle',
-        'skinVariant': false,
-        'removable': true,
-        'variationsCount': 1,
-        'subVariations': [60],
-      },
-      'accessories': {
-        'label': 'Accessories',
-        'skinVariant': false,
-        'removable': true,
-        'variationsCount': 1,
-        'subVariations': [21],
-      },
-    }
-  };
 }
