@@ -29,11 +29,14 @@ class Buttons extends StatelessWidget {
           child: Container(),
         ),
         Expanded(
-          child: Container(
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage("images/Liquid-Avatar-Logo-thumb-v1.png"),
-                fit: BoxFit.contain,
+          child: Align(
+            alignment: Alignment.topCenter,
+            child: Container(
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage("images/Liquid-Avatar-Logo-thumb-v1.png"),
+                  fit: BoxFit.contain,
+                ),
               ),
             ),
           ),
